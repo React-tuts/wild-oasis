@@ -9,3 +9,5 @@ export const GuestSchema = z.object({
   countryFlag: z.string(),
   nationalId: z.string(),
 });
+
+export const GuestsSchema = z.array(GuestSchema);

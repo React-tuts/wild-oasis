@@ -10,3 +10,5 @@ export const CabinSchema = z.object({
   description: z.string(),
   image: z.string(),
 });
+
+export const CabinsSchema = z.array(CabinSchema);
