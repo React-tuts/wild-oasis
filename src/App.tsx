@@ -8,6 +8,17 @@ import { Account } from "./pages/Account";
 import { Login } from "./pages/Login";
 import { PageNotFound } from "./pages/PageNotFound";
 import { AppLayout } from "./ui/AppLayout";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Loader as CabinLoader } from "./pages/Cabins";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+    },
+  },
+});
 
 const browserRouter = createBrowserRouter([
   {
@@ -29,6 +40,7 @@ const browserRouter = createBrowserRouter([
       {
         path: "cabins",
         element: <Cabins />,
+        loader: CabinLoader(queryClient),
       },
       {
         path: "users",
@@ -55,7 +67,12 @@ const browserRouter = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={browserRouter} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
+      <RouterProvider router={browserRouter} />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
