@@ -8,6 +8,8 @@ import { StyledTableBody } from "../ui/table/StyledTableBody";
 import { useLoaderData } from "react-router-dom";
 import type { CabinType as Cabin } from "../sharedTypes/types/Cabin.type";
 import { StyledTableData } from "../ui/table/StyledTableData";
+import { StyledDeleteButton } from "../ui/buttons/StyledDeleteButton";
+import { MdDeleteForever } from "react-icons/md";
 
 export const Cabins = () => {
   const headerNames = ["", "Cabin", "Capacity", "Price", "Discount"];
@@ -38,8 +40,14 @@ export const Cabins = () => {
               </StyledTableData>
               <StyledTableData>{cabin.maxCapacity}</StyledTableData>
               <StyledTableData>{cabin.regularPrice}</StyledTableData>
-              <StyledTableData>{cabin.discount}</StyledTableData>
-              <StyledTableData>Delete</StyledTableData>
+              <StyledTableData>
+                <p className="font-semibold text-green-500">{cabin.discount}</p>
+              </StyledTableData>
+              <StyledTableData>
+                <StyledDeleteButton>
+                  <MdDeleteForever />
+                </StyledDeleteButton>
+              </StyledTableData>
             </StyledTableRow>
           );
         })}
