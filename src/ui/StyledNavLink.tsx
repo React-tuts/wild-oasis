@@ -15,8 +15,8 @@ export const StyledNavLink = ({
         `flex items-center gap-2 px-2 py-1
         ${
           isActive
-            ? "bg-gray-50/40 text-white font-bold"
-            : "text-slate-200 hover:bg-gray-50/10"
+            ? "bg-gray-700/40 text-slate-900 font-semibold"
+            : "text-slate-700 hover:bg-gray-500/10"
         }`
       }
     >

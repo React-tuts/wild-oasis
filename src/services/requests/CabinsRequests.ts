@@ -24,3 +24,16 @@ export const getCabins = async ({
   }
   return parsed.data;
 };
+
+export const DeleteCabin = async ({
+  cabinId,
+  signal,
+}: {
+  cabinId: string;
+  signal?: AbortSignal;
+}) => {
+  if (cabinId === null) {
+    throw new Error(`Delete Cabin - cabin is null`);
+  }
+  await apiClient.delete(`${BASE_URL}/api/cabins/${cabinId}`, signal);
+};

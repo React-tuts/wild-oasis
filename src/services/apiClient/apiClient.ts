@@ -38,4 +38,9 @@ export const apiClient = {
       signal,
       headers: { "Content-Type": "application/json" },
     }),
+  delete: (url: string, signal?: AbortSignal) =>
+    request(url, {
+      method: "DELETE",
+      signal,
+    }),
 };

@@ -11,6 +11,7 @@ import { AppLayout } from "./ui/AppLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Loader as CabinLoader } from "./pages/Cabins";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,6 +72,14 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <RouterProvider router={browserRouter} />
+      <Toaster
+        position="top-center"
+        gutter={12}
+        toastOptions={{
+          success: { duration: 2000 },
+          error: { duration: 4000 },
+        }}
+      />
     </QueryClientProvider>
   );
 }
