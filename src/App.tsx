@@ -10,7 +10,6 @@ import { PageNotFound } from "./pages/PageNotFound";
 import { AppLayout } from "./ui/AppLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Loader as CabinLoader } from "./pages/Cabins";
 import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient({
@@ -41,7 +40,6 @@ const browserRouter = createBrowserRouter([
       {
         path: "cabins",
         element: <Cabins />,
-        loader: CabinLoader(queryClient),
       },
       {
         path: "users",

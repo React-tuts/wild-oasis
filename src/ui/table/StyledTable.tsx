@@ -5,5 +5,5 @@ export type StyledTableProps = {
 };
 
 export const StyledTable = ({ children }: StyledTableProps) => {
-  return <table className="w-3/4 mx-auto my-7">{children}</table>;
+  return <table className="mx-auto my-7 w-full">{children}</table>;
 };
