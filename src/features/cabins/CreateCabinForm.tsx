@@ -2,36 +2,70 @@ import { StyledButton } from "../../ui/styled/StyledButton";
 import { StyledInput } from "../../ui/styled/StyledInput";
 import { CreateCabinFormLabel } from "../../ui/forms/CreateCabinFormLabel";
 import { FormRow } from "../../ui/forms/FormRow";
+import { useForm } from "react-hook-form";
+
+type CreateCabinFormData = {
+  cabinName: string;
+  maximumCapacity: number;
+  regularPrice: number;
+  discount: number;
+  description: string;
+  photo: string;
+};
 
 export const CreateCabinForm = () => {
-  const handleCancel = () => {};
-  const handleSubmit = () => {};
+  const { register, handleSubmit } = useForm<CreateCabinFormData>();
+  const handleFormSubmit = (data: CreateCabinFormData) => {
+    console.log("handleFormSubmit");
+    console.log(data);
+  };
   return (
     <div className=" mt-10 w-2/3 m-auto">
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit(handleFormSubmit)}>
         <FormRow>
-          <CreateCabinFormLabel htmlFor="name">Cabin name</CreateCabinFormLabel>
-          <StyledInput id="name" />
+          <CreateCabinFormLabel htmlFor="cabinName">
+            Cabin name
+          </CreateCabinFormLabel>
+          <StyledInput id="cabinName" {...register("cabinName")} />
         </FormRow>
         <FormRow>
-          <CreateCabinFormLabel htmlFor="capacity">
+          <CreateCabinFormLabel htmlFor="maximumCapacity">
             Maximum Capacity
           </CreateCabinFormLabel>
-          <StyledInput id="capacity" />
+          <StyledInput
+            type="number"
+            id="maximumCapacity"
+            {...register("maximumCapacity", { valueAsNumber: true })}
+          />
         </FormRow>
         <FormRow>
-          <CreateCabinFormLabel htmlFor="price">
+          <CreateCabinFormLabel htmlFor="regularPrice">
             Regular Price
           </CreateCabinFormLabel>
-          <StyledInput id="price" />
+          <StyledInput
+            type="number"
+            id="regularPrice"
+            {...register("regularPrice", { valueAsNumber: true })}
+          />
         </FormRow>
         <FormRow>
           <CreateCabinFormLabel htmlFor="discount">
             Discount
           </CreateCabinFormLabel>
-          <textarea
+          <StyledInput
             id="discount"
+            type="number"
+            {...register("discount", { valueAsNumber: true })}
+          />
+        </FormRow>
+        <FormRow>
+          <CreateCabinFormLabel htmlFor="description">
+            Description for website
+          </CreateCabinFormLabel>
+          <textarea
+            id="description"
             className="border border-slate-500/50 rounded w-1/2"
+            {...register("description")}
           ></textarea>
         </FormRow>
         <FormRow>
@@ -43,15 +77,15 @@ export const CreateCabinForm = () => {
             className="w-1/2 text-sm"
           />
         </FormRow>
+        <div className=" mt-4 flex justify-end gap-2">
+          <StyledButton variant="secondary" type="reset">
+            Clear
+          </StyledButton>
+          <StyledButton variant="primary" type="submit">
+            Submit
+          </StyledButton>
+        </div>
       </form>
-      <div className=" mt-4 flex justify-end gap-2">
-        <StyledButton onClick={handleCancel} style="secondary">
-          Cancel
-        </StyledButton>
-        <StyledButton onClick={handleSubmit} style="primary">
-          Submit
-        </StyledButton>
-      </div>
     </div>
   );
 };

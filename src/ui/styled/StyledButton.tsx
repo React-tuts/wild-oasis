@@ -1,9 +1,8 @@
 export type StyledButtonProps = {
-  onClick: () => void;
   children: React.ReactNode;
   disabled?: boolean;
-  style: "roundedDelete" | "lengthyPrimary" | "secondary" | "primary";
-};
+  variant: "roundedDelete" | "lengthyPrimary" | "secondary" | "primary";
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const baseStyle = "uppercase text-sm font-semibold";
 
@@ -15,15 +14,15 @@ const styles = {
 };
 export const StyledButton = ({
   children,
-  onClick,
   disabled,
-  style,
+  variant,
+  ...props
 }: StyledButtonProps) => {
   return (
     <button
-      className={styles[style]}
-      onClick={onClick}
+      className={styles[variant]}
       disabled={disabled ? disabled : false}
+      {...props}
     >
       {children}
     </button>

@@ -8,7 +8,7 @@ export const Cabins = () => {
   return (
     <div className="w-3/4 m-auto">
       <CabinsList />
-      <StyledButton onClick={() => setShow(!show)} style="lengthyPrimary">
+      <StyledButton onClick={() => setShow(!show)} variant="lengthyPrimary">
         Add New Cabin
       </StyledButton>
       {show && <CreateCabinForm />}

@@ -82,7 +82,7 @@ export const CabinsList = () => {
                       })
                     }
                     disabled={isDeleting}
-                    style="roundedDelete"
+                    variant="roundedDelete"
                   >
                     <MdDeleteForever />
                   </StyledButton>
