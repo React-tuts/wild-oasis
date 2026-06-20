@@ -1,4 +1,4 @@
-import { CancelButton } from "../../ui/buttons/CancelButton";
+import { StyledButton } from "../../ui/buttons/StyledButton";
 import { CreateCabinFormInput } from "../../ui/forms/CreateCabinFormInput";
 import { CreateCabinFormLabel } from "../../ui/forms/CreateCabinFormLabel";
 import { FormRow } from "../../ui/forms/FormRow";
@@ -44,7 +44,9 @@ export const CreateCabinForm = () => {
         </FormRow>
       </form>
       <div className="space-y-4 flex justify-end">
-        <CancelButton handleClick={handleCancel}>Cancel</CancelButton>
+        <StyledButton onClick={handleCancel} style="secondary">
+          Cancel
+        </StyledButton>
       </div>
     </div>
   );

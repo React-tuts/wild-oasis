@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { CabinsList } from "../features/cabins/CabinsList";
-import { LengthyButton } from "../ui/buttons/LengthyButton";
 import { CreateCabinForm } from "../features/cabins/CreateCabinForm";
+import { StyledButton } from "../ui/buttons/StyledButton";
 
 export const Cabins = () => {
   const [show, setShow] = useState<boolean>(true);
   return (
     <div className="w-3/4 m-auto">
       <CabinsList />
-      <LengthyButton onClick={() => setShow(!show)}>
+      <StyledButton onClick={() => setShow(!show)} style="lengthyPrimary">
         Add New Cabin
-      </LengthyButton>
+      </StyledButton>
       {show && <CreateCabinForm />}
     </div>
   );

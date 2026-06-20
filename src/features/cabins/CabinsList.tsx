@@ -1,5 +1,5 @@
 import { MdDeleteForever } from "react-icons/md";
-import { StyledDeleteButton } from "../../ui/buttons/StyledDeleteButton";
+import { StyledButton } from "../../ui/buttons/StyledButton";
 import { StyledTable } from "../../ui/table/StyledTable";
 import { StyledTableBody } from "../../ui/table/StyledTableBody";
 import { StyledTableData } from "../../ui/table/StyledTableData";
@@ -74,7 +74,7 @@ export const CabinsList = () => {
                   </p>
                 </StyledTableData>
                 <StyledTableData>
-                  <StyledDeleteButton
+                  <StyledButton
                     onClick={() =>
                       mutate({
                         cabinId: cabin.id,
@@ -82,9 +82,10 @@ export const CabinsList = () => {
                       })
                     }
                     disabled={isDeleting}
+                    style="roundedDelete"
                   >
                     <MdDeleteForever />
-                  </StyledDeleteButton>
+                  </StyledButton>
                 </StyledTableData>
               </StyledTableRow>
             );
