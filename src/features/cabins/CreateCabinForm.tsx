@@ -1,5 +1,5 @@
-import { StyledButton } from "../../ui/buttons/StyledButton";
-import { CreateCabinFormInput } from "../../ui/forms/CreateCabinFormInput";
+import { StyledButton } from "../../ui/styled/StyledButton";
+import { StyledInput } from "../../ui/styled/StyledInput";
 import { CreateCabinFormLabel } from "../../ui/forms/CreateCabinFormLabel";
 import { FormRow } from "../../ui/forms/FormRow";
 
@@ -11,19 +11,19 @@ export const CreateCabinForm = () => {
       <form className="space-y-4">
         <FormRow>
           <CreateCabinFormLabel htmlFor="name">Cabin name</CreateCabinFormLabel>
-          <CreateCabinFormInput id="name" />
+          <StyledInput id="name" />
         </FormRow>
         <FormRow>
           <CreateCabinFormLabel htmlFor="capacity">
             Maximum Capacity
           </CreateCabinFormLabel>
-          <CreateCabinFormInput id="capacity" />
+          <StyledInput id="capacity" />
         </FormRow>
         <FormRow>
           <CreateCabinFormLabel htmlFor="price">
             Regular Price
           </CreateCabinFormLabel>
-          <CreateCabinFormInput id="price" />
+          <StyledInput id="price" />
         </FormRow>
         <FormRow>
           <CreateCabinFormLabel htmlFor="discount">

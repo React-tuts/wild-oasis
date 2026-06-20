@@ -1,5 +1,5 @@
 import { MdDeleteForever } from "react-icons/md";
-import { StyledButton } from "../../ui/buttons/StyledButton";
+import { StyledButton } from "../../ui/styled/StyledButton";
 import { StyledTable } from "../../ui/table/StyledTable";
 import { StyledTableBody } from "../../ui/table/StyledTableBody";
 import { StyledTableData } from "../../ui/table/StyledTableData";
