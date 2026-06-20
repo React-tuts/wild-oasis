@@ -5,6 +5,7 @@ import { FormRow } from "../../ui/forms/FormRow";
 
 export const CreateCabinForm = () => {
   const handleCancel = () => {};
+  const handleSubmit = () => {};
   return (
     <div className=" mt-10 w-2/3 m-auto">
       <form className="space-y-4">
@@ -43,9 +44,12 @@ export const CreateCabinForm = () => {
           />
         </FormRow>
       </form>
-      <div className="space-y-4 flex justify-end">
+      <div className=" mt-4 flex justify-end gap-2">
         <StyledButton onClick={handleCancel} style="secondary">
           Cancel
+        </StyledButton>
+        <StyledButton onClick={handleSubmit} style="primary">
+          Submit
         </StyledButton>
       </div>
     </div>
