@@ -1,80 +1,141 @@
 import { StyledButton } from "../../ui/styled/StyledButton";
 import { StyledInput } from "../../ui/styled/StyledInput";
-import { CreateCabinFormLabel } from "../../ui/forms/CreateCabinFormLabel";
+import { StyledLabel } from "../../ui/styled/StyledLabel";
 import { FormRow } from "../../ui/forms/FormRow";
 import { useForm } from "react-hook-form";
+import { StyledErrorMessage } from "../../ui/styled/StyledErrorMessage";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createCabin } from "../../services/requests/CabinsRequests";
+import toast from "react-hot-toast";
 
-type CreateCabinFormData = {
+export type CreateCabinFormData = {
   cabinName: string;
   maximumCapacity: number;
   regularPrice: number;
   discount: number;
   description: string;
-  photo: string;
+  image: FileList;
 };
 
 export const CreateCabinForm = () => {
-  const { register, handleSubmit } = useForm<CreateCabinFormData>();
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: createCabin,
+    onSuccess: () => toast.success("Cabin creataed successfully"),
+    onError: () => toast.error("Cabin creation failed"),
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["cabins"],
+      });
+    },
+  });
+  const { register, handleSubmit, getValues, formState } =
+    useForm<CreateCabinFormData>();
+  const { errors } = formState;
+  console.log(errors);
+  const controller = new AbortController();
   const handleFormSubmit = (data: CreateCabinFormData) => {
     console.log("handleFormSubmit");
     console.log(data);
+    mutate({ cabin: data, signal: controller.signal });
+  };
+
+  const onError = (err) => {
+    console.log(err);
   };
   return (
     <div className=" mt-10 w-2/3 m-auto">
-      <form className="space-y-4" onSubmit={handleSubmit(handleFormSubmit)}>
+      <form
+        className="space-y-4"
+        onSubmit={handleSubmit(handleFormSubmit, onError)}
+      >
         <FormRow>
-          <CreateCabinFormLabel htmlFor="cabinName">
-            Cabin name
-          </CreateCabinFormLabel>
-          <StyledInput id="cabinName" {...register("cabinName")} />
+          <StyledLabel htmlFor="cabinName">Cabin name</StyledLabel>
+          <div>
+            <StyledInput
+              id="cabinName"
+              {...register("cabinName", { required: "This field is required" })}
+            />
+            {errors.cabinName?.message && (
+              <StyledErrorMessage>
+                {errors.cabinName.message}
+              </StyledErrorMessage>
+            )}
+          </div>
         </FormRow>
         <FormRow>
-          <CreateCabinFormLabel htmlFor="maximumCapacity">
-            Maximum Capacity
-          </CreateCabinFormLabel>
-          <StyledInput
-            type="number"
-            id="maximumCapacity"
-            {...register("maximumCapacity", { valueAsNumber: true })}
-          />
+          <StyledLabel htmlFor="maximumCapacity">Maximum Capacity</StyledLabel>
+          <div>
+            <StyledInput
+              type="number"
+              id="maximumCapacity"
+              {...register("maximumCapacity", {
+                valueAsNumber: true,
+                required: "This field is required",
+              })}
+            />
+            {errors.maximumCapacity?.message && (
+              <StyledErrorMessage>
+                {errors.maximumCapacity.message}
+              </StyledErrorMessage>
+            )}
+          </div>
         </FormRow>
         <FormRow>
-          <CreateCabinFormLabel htmlFor="regularPrice">
-            Regular Price
-          </CreateCabinFormLabel>
-          <StyledInput
-            type="number"
-            id="regularPrice"
-            {...register("regularPrice", { valueAsNumber: true })}
-          />
+          <StyledLabel htmlFor="regularPrice">Regular Price</StyledLabel>
+          <div>
+            <StyledInput
+              type="number"
+              id="regularPrice"
+              {...register("regularPrice", {
+                valueAsNumber: true,
+                min: { value: 1, message: "Price should be greater than 1" },
+              })}
+            />
+            {errors.regularPrice?.message && (
+              <StyledErrorMessage>
+                {errors.regularPrice.message}
+              </StyledErrorMessage>
+            )}
+          </div>
         </FormRow>
         <FormRow>
-          <CreateCabinFormLabel htmlFor="discount">
-            Discount
-          </CreateCabinFormLabel>
-          <StyledInput
-            id="discount"
-            type="number"
-            {...register("discount", { valueAsNumber: true })}
-          />
+          <StyledLabel htmlFor="discount">Discount</StyledLabel>
+          <div>
+            <StyledInput
+              id="discount"
+              type="number"
+              {...register("discount", {
+                valueAsNumber: true,
+                validate: (value) =>
+                  value < getValues().regularPrice ||
+                  "Discount should be less than the price",
+              })}
+            />
+            {errors.discount?.message && (
+              <StyledErrorMessage>{errors.discount.message}</StyledErrorMessage>
+            )}
+          </div>
         </FormRow>
         <FormRow>
-          <CreateCabinFormLabel htmlFor="description">
+          <StyledLabel htmlFor="description">
             Description for website
-          </CreateCabinFormLabel>
+          </StyledLabel>
           <textarea
             id="description"
-            className="border border-slate-500/50 rounded w-1/2"
+            className="border border-slate-500/50 rounded w-full"
             {...register("description")}
           ></textarea>
         </FormRow>
         <FormRow>
-          <CreateCabinFormLabel htmlFor="photo">Photo </CreateCabinFormLabel>
+          <StyledLabel htmlFor="image">Image </StyledLabel>
           <input
             type="file"
-            id="photo"
+            id="image"
             accept="image/*"
-            className="w-1/2 text-sm"
+            className="text-sm w-full"
+            {...register("image")}
           />
         </FormRow>
         <div className=" mt-4 flex justify-end gap-2">

@@ -1,4 +1,11 @@
-import { CabinsSchema } from "../../sharedTypes/schemas/CabinSchema";
+import {
+  CreateCabinForm,
+  type CreateCabinFormData,
+} from "../../features/cabins/CreateCabinForm";
+import {
+  CabinSchema,
+  CabinsSchema,
+} from "../../sharedTypes/schemas/CabinSchema";
 import type { CabinType as Cabin } from "../../sharedTypes/types/Cabin.type";
 import { apiClient } from "../apiClient/apiClient";
 
@@ -36,4 +43,41 @@ export const DeleteCabin = async ({
     throw new Error(`Delete Cabin - cabin is null`);
   }
   await apiClient.delete(`${BASE_URL}/api/cabins/${cabinId}`, signal);
+};
+export const createCabin = async ({
+  cabin,
+  signal,
+}: {
+  cabin: CreateCabinFormData;
+  signal?: AbortSignal;
+}) => {
+  if (cabin === null) {
+    throw new Error("Invalid cabin data");
+  }
+  console.log("before form data");
+  console.log(cabin);
+
+  const formData = new FormData();
+  formData.append("name", cabin.cabinName);
+  formData.append("maxCapacity", cabin.maximumCapacity.toString());
+  formData.append("regularPrice", cabin.regularPrice.toString());
+  formData.append("discount", cabin.discount.toString());
+  formData.append("description", cabin.description);
+  formData.append("image", cabin.image[0]);
+  console.log(formData);
+  console.log([...formData.entries()]);
+
+  const response = await apiClient.multipartPost(
+    `${BASE_URL}/api/cabins`,
+    formData,
+    signal,
+  );
+  console.log(formData);
+  console.log([...formData.entries()]);
+  const parsed = await CabinSchema.safeParseAsync(response);
+  if (!parsed.success) {
+    console.log("cabin parsing failed", parsed.error.issues);
+    console.error("zod error", parsed.error.message);
+  }
+  return parsed.data;
 };

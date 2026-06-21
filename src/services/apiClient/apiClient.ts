@@ -24,6 +24,12 @@ const request = async <T>(
 
 export const apiClient = {
   get: <T>(url: string, signal?: AbortSignal) => request<T>(url, { signal }),
+  multipartPost: <T>(url: string, body: FormData, signal?: AbortSignal) =>
+    request<T>(url, {
+      method: "POST",
+      body,
+      signal,
+    }),
   post: <T>(url: string, body: unknown, signal?: AbortSignal) =>
     request<T>(url, {
       method: "POST",
@@ -31,6 +37,7 @@ export const apiClient = {
       signal,
       headers: { "Content-Type": "application/json" },
     }),
+
   patch: <T>(url: string, body: unknown, signal?: AbortSignal) =>
     request<T>(url, {
       method: "PATCH",
