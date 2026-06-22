@@ -129,12 +129,12 @@ export const CreateCabinForm = () => {
           ></textarea>
         </FormRow>
         <FormRow>
-          <StyledLabel htmlFor="image">Image </StyledLabel>
+          <StyledLabel htmlFor="image">Photo </StyledLabel>
           <input
             type="file"
             id="image"
             accept="image/*"
-            className="text-sm w-full"
+            className="text-sm w-full cursor-pointer bg-blue-700 p-2 rounded text-center text-white"
             {...register("image")}
           />
         </FormRow>
