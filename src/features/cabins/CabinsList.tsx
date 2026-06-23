@@ -1,4 +1,4 @@
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdEdit } from "react-icons/md";
 import { StyledButton } from "../../ui/styled/StyledButton";
 import { StyledTable } from "../../ui/table/StyledTable";
 import { StyledTableBody } from "../../ui/table/StyledTableBody";
@@ -11,9 +11,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import toast from "react-hot-toast";
 import { DeleteCabin, getCabins } from "../../services/requests/CabinsRequests";
+import { useState } from "react";
+import { CreateCabinForm } from "./CreateCabinForm";
+import { StyledModal } from "../../ui/styled/StyledModal";
 
 export const CabinsList = () => {
   const headerNames = ["", "Cabin", "Capacity", "Price", "Discount"];
+  const [editCabin, setEditCabin] = useState<Cabin | null>(null);
 
   const queryClient = useQueryClient();
   const controller = new AbortController();
@@ -54,40 +58,55 @@ export const CabinsList = () => {
         {data &&
           data.map((cabin) => {
             return (
-              <StyledTableRow key={cabin.id}>
-                <StyledTableData>
-                  <img
-                    src={cabin.image}
-                    alt={cabin.name}
-                    className="max-w-20 transition-transform duration-300 hover:scale-150"
-                  />
-                </StyledTableData>
+              <>
+                <StyledTableRow key={cabin.id}>
+                  <StyledTableData>
+                    <img
+                      src={cabin.image}
+                      alt={cabin.name}
+                      className="max-w-20 transition-transform duration-300 hover:scale-150"
+                    />
+                  </StyledTableData>
 
-                <StyledTableData>
-                  <p>{cabin.name}</p>
-                </StyledTableData>
-                <StyledTableData>{cabin.maxCapacity}</StyledTableData>
-                <StyledTableData>{cabin.regularPrice}</StyledTableData>
-                <StyledTableData>
-                  <p className="font-semibold text-green-500">
-                    {cabin.discount}
-                  </p>
-                </StyledTableData>
-                <StyledTableData>
-                  <StyledButton
-                    onClick={() =>
-                      mutate({
-                        cabinId: cabin.id,
-                        signal: controller.signal,
-                      })
-                    }
-                    disabled={isDeleting}
-                    variant="roundedDelete"
-                  >
-                    <MdDeleteForever />
-                  </StyledButton>
-                </StyledTableData>
-              </StyledTableRow>
+                  <StyledTableData>
+                    <p>{cabin.name}</p>
+                  </StyledTableData>
+                  <StyledTableData>{cabin.maxCapacity}</StyledTableData>
+                  <StyledTableData>{cabin.regularPrice}</StyledTableData>
+                  <StyledTableData>
+                    <p className="font-semibold text-green-500">
+                      {cabin.discount}
+                    </p>
+                  </StyledTableData>
+                  <StyledTableData>
+                    <StyledButton
+                      onClick={() => setEditCabin(cabin)}
+                      variant="roundedEdit"
+                    >
+                      <MdEdit />
+                    </StyledButton>
+                  </StyledTableData>
+                  <StyledTableData>
+                    <StyledButton
+                      onClick={() =>
+                        mutate({
+                          cabinId: cabin.id,
+                          signal: controller.signal,
+                        })
+                      }
+                      disabled={isDeleting}
+                      variant="roundedDelete"
+                    >
+                      <MdDeleteForever />
+                    </StyledButton>
+                  </StyledTableData>
+                  {editCabin && (
+                    <StyledModal onClose={() => setEditCabin(null)}>
+                      <CreateCabinForm cabin={editCabin} />
+                    </StyledModal>
+                  )}
+                </StyledTableRow>
+              </>
             );
           })}
       </StyledTableBody>

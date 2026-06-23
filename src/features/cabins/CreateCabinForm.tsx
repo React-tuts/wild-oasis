@@ -7,7 +7,7 @@ import { StyledErrorMessage } from "../../ui/styled/StyledErrorMessage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCabin } from "../../services/requests/CabinsRequests";
 import toast from "react-hot-toast";
-
+import type { CabinType as Cabin } from "../../sharedTypes/types/Cabin.type";
 export type CreateCabinFormData = {
   cabinName: string;
   maximumCapacity: number;
@@ -17,7 +17,7 @@ export type CreateCabinFormData = {
   image: FileList;
 };
 
-export const CreateCabinForm = () => {
+export const CreateCabinForm = ({ cabin }: { cabin?: Cabin | null }) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
@@ -55,6 +55,7 @@ export const CreateCabinForm = () => {
           <div>
             <StyledInput
               id="cabinName"
+              defaultValue={cabin?.name}
               {...register("cabinName", { required: "This field is required" })}
             />
             {errors.cabinName?.message && (
@@ -70,6 +71,7 @@ export const CreateCabinForm = () => {
             <StyledInput
               type="number"
               id="maximumCapacity"
+              defaultValue={cabin?.maxCapacity}
               {...register("maximumCapacity", {
                 valueAsNumber: true,
                 required: "This field is required",
@@ -88,6 +90,7 @@ export const CreateCabinForm = () => {
             <StyledInput
               type="number"
               id="regularPrice"
+              defaultValue={cabin?.regularPrice}
               {...register("regularPrice", {
                 valueAsNumber: true,
                 min: { value: 1, message: "Price should be greater than 1" },
@@ -106,6 +109,7 @@ export const CreateCabinForm = () => {
             <StyledInput
               id="discount"
               type="number"
+              defaultValue={cabin?.discount}
               {...register("discount", {
                 valueAsNumber: true,
                 validate: (value) =>
@@ -124,6 +128,7 @@ export const CreateCabinForm = () => {
           </StyledLabel>
           <textarea
             id="description"
+            defaultValue={cabin?.description}
             className="border border-slate-500/50 rounded w-full"
             {...register("description")}
           ></textarea>
